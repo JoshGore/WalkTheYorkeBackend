@@ -1,5 +1,6 @@
 [webserver]
-port = ":8000"
+port = ":8080"
+hostname = "api.wty.joshgore.com.au"
 [webserver.headers]
 Access-Control-Allow-Origin = "*"
 [cache]
