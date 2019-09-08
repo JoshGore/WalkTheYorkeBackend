@@ -24,7 +24,7 @@ services:
       POSTGIS_DATABASE: gis
       POSTGIS_USER: postgres
       POSTGIS_PASSWORD: 0fvUCrRp48lVdJNc206oqE3V1XYTh1
-      ports:
+    ports:
       - "8000:8000"
     volumes:
     - ./config.toml:/opt/tegola_config/config.toml
