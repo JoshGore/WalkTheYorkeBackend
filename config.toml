@@ -1,0 +1,76 @@
+[webserver]
+port = ":8000"
+[webserver.headers]
+Access-Control-Allow-Origin = "*"
+[cache]
+type="file"             # cache type
+basepath="/tmp/tegola"  # cache specific config
+
+# register data providers
+[[providers]]
+name = "walktheyorke"           # provider name is referenced from map layers
+type = "postgis"        # the type of data provider. currently only supports postgis
+host = "${POSTGIS_HOST}"      # postgis database host
+port = "${POSTGIS_PORT}"             # postgis database port
+database = "${POSTGIS_DATABASE}"       # postgis database name
+user = "${POSTGIS_USER}"         # postgis database user
+password = "${POSTGIS_PASSWORD}"           # postgis database password
+srid = 4326             # The default srid for this provider. If not provided it will be WebMercator (3857)
+
+  [[providers.layers]]
+  name = "trail_markers"
+  geometry_fieldname = "geom"
+  id_fieldname = "id"
+  sql = """
+    SELECT points.id AS id, ST_AsBinary(geom::geometry) AS geom, points.name, routes.id AS trail_id FROM points
+    JOIN point_type ON point_type.point_id = points.id
+    JOIN types ON point_type.type_id = types.id
+    JOIN point_route ON point_route.point_id = points.id
+    JOIN routes ON point_route.route_id = routes.id
+    WHERE types.id = 7 AND routes.type = 5 AND geom::geometry && !BBOX!
+  """
+
+  [[providers.layers]]
+  name = "trail_stages"
+  geometry_fieldname = "geom"
+  id_fieldname = "id"
+  sql = """
+    SELECT lines.id, ST_AsBinary(geom::geometry) AS geom, types.name AS use, routes.id AS route_id, routes.route_id as trail_id FROM lines 
+    JOIN line_type ON line_type.line_id = lines.id
+    JOIN types ON types.id = line_type.type_id
+    JOIN line_route ON line_route.line_id = lines.id
+    JOIN routes ON line_route.route_id = routes.id WHERE routes.type = 1 AND geom::geometry && !BBOX!
+  """
+
+  [[providers.layers]]
+  name = "trail_shelters"
+  geometry_fieldname = "geom"
+  id_fieldname = "id"
+  sql = """
+    SELECT points.id AS id, ST_AsBinary(geom::geometry) AS geom, points.name, routes.id AS trail_id FROM points
+    JOIN point_type ON point_type.point_id = points.id
+    JOIN types ON point_type.type_id = types.id
+    JOIN point_route ON point_route.point_id = points.id
+    JOIN routes ON point_route.route_id = routes.id
+    WHERE types.id = 6 AND routes.type = 5 AND geom::geometry && !BBOX!
+  """
+
+  [[maps]]
+  name = "walktheyorke"
+  center = [136.9, -34.7, 8.0]
+
+  [[maps.layers]]
+  provider_layer = "walktheyorke.trail_stages"
+  min_zoom = 0
+  max_zoom = 22
+
+  [[maps.layers]]
+  provider_layer = "walktheyorke.trail_shelters"
+  min_zoom = 6
+  max_zoom = 22
+
+  [[maps.layers]]
+  provider_layer = "walktheyorke.trail_markers"
+  min_zoom = 10
+  max_zoom = 22
+

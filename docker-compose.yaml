@@ -4,7 +4,8 @@ services:
     image: kartoza/postgis
     restart: always
     volumes:
-    - db_data:/var/lib/postgresql/data
+      # - ./database:/var/lib/postgresql/data
+    - postgis-data:/var/lib/postgresql
     ports:
       - "5432:5432"
     environment: 
@@ -12,6 +13,22 @@ services:
       POSTGRES_PASS: password
       POSTGRES_MULTIPLE_EXTENSIONS: postgis
       ALLOW_IP_RANGE: 0.0.0.0/0
+  tegola: 
+    image: gospatial/tegola
+    depends_on: 
+      - "postgres"
+    restart: always
+    environment: 
+      POSTGIS_HOST: postgres
+      POSTGIS_PORT: 5432
+      POSTGIS_DATABASE: gis
+      POSTGIS_USER: postgres
+      POSTGIS_PASSWORD: password
+    ports:
+    - "8000:8000"
+    volumes:
+    - ./config.toml:/opt/tegola_config/config.toml
+    command: --config /opt/tegola_config/config.toml serve
   graphql-engine:
     image: hasura/graphql-engine:v1.0.0-beta.6
     depends_on:
@@ -40,6 +57,8 @@ services:
     volumes:
     - ./Caddyfile:/etc/Caddyfile
     - caddy_certs:/root/.caddy
+    environment: 
+    - ACME_AGREE=true
 volumes:
-  db_data:
   caddy_certs:
+  postgis-data:
