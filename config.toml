@@ -1,6 +1,6 @@
 [webserver]
 port = ":8080"
-hostname = "api.wty.joshgore.com.au"
+hostname = "${API_HOSTNAME}"
 [webserver.headers]
 Access-Control-Allow-Origin = "*"
 [cache]

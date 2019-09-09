@@ -10,7 +10,7 @@ services:
       - "5432:5432"
     environment: 
       POSTGRES_USER: postgres
-      POSTGRES_PASS: 0fvUCrRp48lVdJNc206oqE3V1XYTh1
+      POSTGRES_PASS: "${POSTGRES_PASSWORD}"
       POSTGRES_MULTIPLE_EXTENSIONS: postgis
       ALLOW_IP_RANGE: 0.0.0.0/0
   tegola: 
@@ -19,13 +19,14 @@ services:
       - "postgres"
     restart: always
     environment: 
+      API_HOSTNAME: "${API_HOSTNAME}"
       POSTGIS_HOST: postgres
       POSTGIS_PORT: 5432
       POSTGIS_DATABASE: gis
       POSTGIS_USER: postgres
-      POSTGIS_PASSWORD: 0fvUCrRp48lVdJNc206oqE3V1XYTh1
+      POSTGIS_PASSWORD: "${POSTGRES_PASSWORD}"
     ports:
-      - "8000:8000"
+      - "8080:8000"
     volumes:
     - ./config.toml:/opt/tegola_config/config.toml
     command: --config /opt/tegola_config/config.toml serve
@@ -36,11 +37,11 @@ services:
     restart: always
     environment:
       # database url to connect
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:0fvUCrRp48lVdJNc206oqE3V1XYTh1@postgres:5432/gis
+      HASURA_GRAPHQL_DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/gis"
       # enable the console served by server
       HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set "false" to disable console
       ## uncomment next line to set an admin secret key
-      HASURA_GRAPHQL_ADMIN_SECRET: d5o4g6GrQhlfP2N94tzAi8A07t5jIQ
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_SECRET}"
       HASURA_GRAPHQL_AUTH_HOOK: https://wty-hasura-auth-dev-2.herokuapp.com/webhook
       HASURA_GRAPHQL_CORS_DOMAIN: "*"
     command:
