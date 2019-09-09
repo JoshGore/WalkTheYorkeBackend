@@ -19,7 +19,7 @@ services:
       - "postgres"
     restart: always
     environment: 
-      API_HOSTNAME: "${API_HOSTNAME}"
+      TILES_HOSTNAME: "${TILES_HOSTNAME}"
       POSTGIS_HOST: postgres
       POSTGIS_PORT: 5432
       POSTGIS_DATABASE: gis

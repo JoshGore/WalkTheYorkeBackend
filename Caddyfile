@@ -1,9 +1,8 @@
-# replace :80 with your domain name to get automatic https via LetsEncrypt
 api.wty.joshgore.com.au {
-    proxy /v1/graphql graphql-engine:8080 {
+    proxy / graphql-engine:8080 {
          websocket
     }
-    proxy / tegola:8080 {
-      without /v1/graphql
-    }
+}
+http://tiles.wty.joshgore.com.au, https://tiles.wty.joshgore.com.au {
+    proxy / tegola:8080
 }

@@ -4,7 +4,8 @@ add variables to .env:
 ```
 POSTGRES_PASSWORD=password
 HASURA_SECRET=secret
-API_HOSTNAME=apihostname.com
+API_HOSTNAME=api.hostname.com
+TILES_HOSTNAME=tiles.hostname.com
 ```
 start postgres database:
 ```

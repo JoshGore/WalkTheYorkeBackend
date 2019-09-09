@@ -1,6 +1,6 @@
 [webserver]
 port = ":8080"
-hostname = "${API_HOSTNAME}"
+hostname = "${TILES_HOSTNAME}"
 [webserver.headers]
 Access-Control-Allow-Origin = "*"
 [cache]
