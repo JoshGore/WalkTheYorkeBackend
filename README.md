@@ -26,3 +26,9 @@ apt install cockpit-system/bionic-backports
 apt install cockpit-pcp/bionic-backports
 systemctl restart cockpit
 ```
+## Recommended Fail2Ban Installation
+```
+apt update && apt install fail2ban
+awk '{ printf "# "; print; }' /etc/fail2ban/jail.conf | sudo tee /etc/fail2ban/jail.local
+vim /etc/fail2ban/jail.conf
+```
