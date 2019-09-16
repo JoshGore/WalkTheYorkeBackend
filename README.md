@@ -14,3 +14,8 @@ docker-compose up --build postgres
 import data using pg_restore -d "postgres://postgres:password@localhost:5432/gis" dump
 docker-compose up
 import hasura metadata
+
+clear tegola cache:
+```
+docker-compose run tegola cache purge --config /opt/tegola_config/config.toml
+```
