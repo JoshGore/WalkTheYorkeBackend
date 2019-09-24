@@ -16,8 +16,19 @@ docker-compose up
 import hasura metadata
 
 ## clear tegola cache
+### Doesn't Work
 ```
 docker-compose run tegola cache purge --config /opt/tegola_config/config.toml
+```
+### Manual but works
+```
+docker-compose exec tegola sh
+rm -rf /mnt/tegola/walktheyorke/*
+```
+```
+docker-compose exec tegola sh
+./tegola cache purge --min-zoom 6 --max-zoom 18 --bounds "136.585109, -35.314486, 138.366868, -33.99099" --config /opt/tegola_config/config.toml
+```
 
 ## Optional Cockpit Installation
 ```
