@@ -19,6 +19,19 @@ password = "${POSTGIS_PASSWORD}"           # postgis database password
 srid = 4326             # The default srid for this provider. If not provided it will be WebMercator (3857)
 
   [[providers.layers]]
+  name = "information"
+  geometry_fieldname = "geom"
+  id_fieldname = "id"
+  sql = """
+    SELECT points.id AS id, ST_AsBinary(geom::geometry) AS geom, points.name, routes.id AS trail_id FROM points
+    JOIN point_type ON point_type.point_id = points.id
+    JOIN types ON point_type.type_id = types.id
+    JOIN point_route ON point_route.point_id = points.id
+    JOIN routes ON point_route.route_id = routes.id
+    WHERE types.id = 11 AND routes.type = 5 AND geom::geometry && !BBOX!
+  """
+
+  [[providers.layers]]
   name = "seats"
   geometry_fieldname = "geom"
   id_fieldname = "id"
@@ -108,5 +121,10 @@ srid = 4326             # The default srid for this provider. If not provided it
 
   [[maps.layers]]
   provider_layer = "walktheyorke.seats"
+  min_zoom = 8
+  max_zoom = 22
+
+  [[maps.layers]]
+  provider_layer = "walktheyorke.information"
   min_zoom = 8
   max_zoom = 22
