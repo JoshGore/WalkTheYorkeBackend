@@ -21,7 +21,7 @@ docker-compose exec tegola ./tegola cache purge --min-zoom 0 --max-zoom 22 --bou
 ```
 ### fast method to clear all
 ```
-docker-compose exec tegola rm -rf /mnt/tegola/walktheyorke/*
+docker-compose exec tegola rm -r /tmp/tegola/walktheyorke/
 ```
 
 ## Optional Cockpit Installation
