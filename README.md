@@ -14,16 +14,6 @@ docker-compose up --build postgres
 import data using pg_restore -d "postgres://postgres:password@localhost:5432/gis" dump
 docker-compose up
 import hasura metadata
-
-## clear tegola cache
-```
-docker-compose exec tegola ./tegola cache purge --min-zoom 0 --max-zoom 22 --bounds "136.585109, -35.314486, 138.366868, -33.99099" --config /opt/tegola_config/config.toml
-```
-### fast method to clear all
-```
-docker-compose exec tegola rm -r /tmp/tegola/walktheyorke/
-```
-
 ## Optional Cockpit Installation
 ```
 apt install cockpit
@@ -40,4 +30,20 @@ systemctl restart cockpit
 apt update && apt install fail2ban
 awk '{ printf "# "; print; }' /etc/fail2ban/jail.conf | sudo tee /etc/fail2ban/jail.local
 vim /etc/fail2ban/jail.conf
+```
+## clear tegola cache
+```
+docker-compose exec tegola ./tegola cache purge --min-zoom 0 --max-zoom 22 --bounds "136.585109, -35.314486, 138.366868, -33.99099" --config /opt/tegola_config/config.toml
+```
+### fast method to clear all
+```
+docker-compose exec tegola rm -r /tmp/tegola/walktheyorke/
+```
+## Backup and Restore of Database
+```
+pg_dump postgres://user:password@host:5432/database > dump.sql
+psql into database
+CREATE TABLE database;
+\q
+psql -U user -d database -f dump.sql
 ```
