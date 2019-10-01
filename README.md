@@ -11,9 +11,14 @@ start postgres database:
 ```
 docker-compose up --build postgres
 ```
-import data using pg_restore -d "postgres://postgres:password@localhost:5432/gis" dump
+import data using: 
+```
+pg_restore -d "postgres://user:password@localhost:5432/database" dump
 docker-compose up
 import hasura metadata
+
+```
+or follow backup and restore instructions below
 ## Optional Cockpit Installation
 ```
 apt install cockpit
