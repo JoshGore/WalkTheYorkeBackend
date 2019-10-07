@@ -8,7 +8,4 @@ const connection_url = process.env.DATABASE_URL || `postgres://postgres:@localho
 module.exports = {
   client: 'pg',
   connection: connection_url,
-  migrations: {
-    directory: __dirname + '/db/migrations'
-  }
 };

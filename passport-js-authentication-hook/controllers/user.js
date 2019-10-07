@@ -31,6 +31,8 @@ exports.postLogin = async (req, res, next) => {
  * Create a new local account.
  */
 exports.postSignup = async (req, res, next) => {
+  req.assert('firstname', 'First Name is not valid').notEmpty();
+  req.assert('lastname', 'Last Name is not valid').notEmpty();
   req.assert('username', 'Username is not valid').notEmpty();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
@@ -43,8 +45,10 @@ exports.postSignup = async (req, res, next) => {
 
   try {
     const user = await User.query()
-                           .allowInsert('[username, password]')
+                           .allowInsert('[firstname, lastname, username, password]')
                            .insert({
+                             firstname: req.body.firstname,
+                             lastname: req.body.lastname,
                              username: req.body.username,
                              password: req.body.password
                            });
@@ -62,7 +66,8 @@ exports.postSignup = async (req, res, next) => {
 
 exports.getWebhook = async (req, res, next) => {
   passport.authenticate('bearer', (err, user, info) => {
-    if (err) { return handleResponse(res, 401, {'error': err}); }
+    // if (err) { return handleResponse(res, 401, {'error': err}); }
+    if (err) { console.error(err); }
     if (user) {
       handleResponse(res, 200, {
         'X-Hasura-Role': 'user',

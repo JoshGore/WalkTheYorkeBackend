@@ -8,6 +8,7 @@ const chalk = require('chalk');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const expressValidator = require('express-validator');
+const cors = require('cors');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -27,6 +28,7 @@ const app = express();
 /**
  * Express configuration.
  */
+app.use(cors());
 app.set('host', '0.0.0.0');
 app.set('port', process.env.PORT || 8080);
 app.set('json spaces', 2); // number of spaces for indentation
