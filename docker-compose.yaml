@@ -47,6 +47,20 @@ services:
     command:
     - graphql-engine 
     - serve
+  authentication: 
+    build: 
+      context: ./passport-js-authentication-hook
+      dockerfile: ./passport-js-authentication-hook/Dockerfile
+    volumes:
+    - ./passport-js-authentication-hook/:/app
+    working_dir: /app
+    depends_on: 
+    - "postgres"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/gis"
+    ports:
+      - "3000:3000"
   caddy:
     image: abiosoft/caddy:0.11.0
     depends_on:
