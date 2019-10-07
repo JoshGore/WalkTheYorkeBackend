@@ -1,7 +1,7 @@
-FROM node:10
+FROM node:10-alpine
 
 # Create app directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -16,4 +16,4 @@ RUN npm ci --only=production
 COPY . .
 
 EXPOSE 3000
-CMD [ "node", "node.js" ]
+CMD [ "node", "app.js" ]

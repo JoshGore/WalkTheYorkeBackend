@@ -42,7 +42,7 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set "false" to disable console
       ## uncomment next line to set an admin secret key
       HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_SECRET}"
-      HASURA_GRAPHQL_AUTH_HOOK: https://wty-hasura-auth-dev-2.herokuapp.com/webhook
+      HASURA_GRAPHQL_AUTH_HOOK: http://authentication:8080/webhook
       HASURA_GRAPHQL_CORS_DOMAIN: "*"
     command:
     - graphql-engine 
@@ -50,17 +50,14 @@ services:
   authentication: 
     build: 
       context: ./passport-js-authentication-hook
-      dockerfile: ./passport-js-authentication-hook/Dockerfile
     volumes:
-    - ./passport-js-authentication-hook/:/app
-    working_dir: /app
+    - ./passport-js-authentication-hook/:/usr/source/app
+    - /usr/src/app/node_modules
     depends_on: 
     - "postgres"
     environment:
       NODE_ENV: production
       DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/gis"
-    ports:
-      - "3000:3000"
   caddy:
     image: abiosoft/caddy:0.11.0
     depends_on:
