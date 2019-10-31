@@ -1,0 +1,1224 @@
+- args:
+    allowlist: []
+    functions: []
+    query_collections: []
+    remote_schemas: []
+    tables:
+    - array_relationships:
+      - comment: null
+        name: line_routes
+        using:
+          foreign_key_constraint_on:
+            column: line_id
+            table: line_route
+      - comment: null
+        name: types
+        using:
+          foreign_key_constraint_on:
+            column: line_id
+            table: line_type
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - title
+          - body
+          - geom
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - geom
+          - id
+          - body
+          - title
+          filter: {}
+        role: user
+      table: lines
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - geom
+          - parent_type_id
+          - type_id
+          - type
+          - user_id
+          - name
+          - updated_at
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - geom
+          - id
+          - parent_type_id
+          - type_id
+          - user_id
+          - name
+          - type
+          - updated_at
+          filter: {}
+        role: user
+      table: user_point_map_layer
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions: []
+      table: trail_stage_map_layer
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: type
+        using:
+          foreign_key_constraint_on: type_id
+      - comment: null
+        name: point
+        using:
+          foreign_key_constraint_on: point_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - point_id
+          - type_id
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - point_id
+          - type_id
+          filter: {}
+        role: anonymous
+      table: point_type
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: route
+        using:
+          manual_configuration:
+            column_mapping:
+              id: id
+            remote_table: routes
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - extent
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - extent
+          filter: {}
+        role: user
+      table: routes_extent
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: line_types
+        using:
+          foreign_key_constraint_on:
+            column: type_id
+            table: line_type
+      - comment: null
+        name: routes
+        using:
+          foreign_key_constraint_on:
+            column: type
+            table: routes
+      - comment: null
+        name: user_points
+        using:
+          foreign_key_constraint_on:
+            column: type_id
+            table: user_points
+      - comment: null
+        name: point_types
+        using:
+          foreign_key_constraint_on:
+            column: type_id
+            table: point_type
+      - comment: null
+        name: types
+        using:
+          foreign_key_constraint_on:
+            column: type_id
+            table: types
+      - comment: null
+        name: comments
+        using:
+          foreign_key_constraint_on:
+            column: type_id
+            table: comments
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: type
+        using:
+          foreign_key_constraint_on: type_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - name
+          - type_id
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - type_id
+          - name
+          filter: {}
+        role: anonymous
+      table: types
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions: []
+      table: seat_map_layer
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check: {}
+          columns:
+          - review_id
+          - route_id
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: route
+        using:
+          foreign_key_constraint_on: route_id
+      - comment: null
+        name: review
+        using:
+          foreign_key_constraint_on: review_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - review_id
+          - route_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - review_id
+          - route_id
+          filter: {}
+        role: user
+      table: route_review
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check: {}
+          columns:
+          - point_id
+          - review_id
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: review
+        using:
+          foreign_key_constraint_on: review_id
+      - comment: null
+        name: point
+        using:
+          foreign_key_constraint_on: point_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - point_id
+          - review_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - point_id
+          - review_id
+          filter: {}
+        role: user
+      table: point_review
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: user_point_comments
+        using:
+          foreign_key_constraint_on:
+            column: user_point_id
+            table: user_point_comment
+      - comment: null
+        name: user_point_reviews
+        using:
+          foreign_key_constraint_on:
+            column: user_point_id
+            table: user_point_review
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check: {}
+          columns:
+          - geom
+          - id
+          - type_id
+          - user_id
+          - description
+          - name
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: type
+        using:
+          foreign_key_constraint_on: type_id
+      - comment: null
+        name: user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - geom
+          - id
+          - type_id
+          - user_id
+          - description
+          - name
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - geom
+          - id
+          - type_id
+          - user_id
+          - description
+          - name
+          filter: {}
+        role: user
+      table: user_points
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: point_reviews
+        using:
+          foreign_key_constraint_on:
+            column: review_id
+            table: point_review
+      - comment: null
+        name: user_point_reviews
+        using:
+          foreign_key_constraint_on:
+            column: review_id
+            table: user_point_review
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check:
+            user_id:
+              _eq: X-Hasura-User-Id
+          columns:
+          - body
+          - rating
+          - user_id
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: route_review
+        using:
+          manual_configuration:
+            column_mapping:
+              id: review_id
+            remote_table: route_review
+      - comment: null
+        name: user
+        using:
+          foreign_key_constraint_on: user_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - body
+          - rating
+          - created_at
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - body
+          - created_at
+          - id
+          - rating
+          - user_id
+          filter: {}
+        role: user
+      table: reviews
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: reviews
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: reviews
+      - comment: null
+        name: comments
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: comments
+      - comment: null
+        name: user_roles
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: user_role
+      - comment: null
+        name: user_points
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table: user_points
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - created_at
+          - firstname
+          - lastname
+          - password
+          - token
+          - username
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - firstname
+          - id
+          - lastname
+          - username
+          filter: {}
+        role: anonymous
+      table: users
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check: {}
+          columns:
+          - review_id
+          - user_point_id
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: user_point
+        using:
+          foreign_key_constraint_on: user_point_id
+      - comment: null
+        name: review
+        using:
+          foreign_key_constraint_on: review_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - user_point_id
+          - review_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - review_id
+          - user_point_id
+          filter: {}
+        role: user
+      table: user_point_review
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: point_routes
+        using:
+          foreign_key_constraint_on:
+            column: point_id
+            table: point_route
+      - comment: null
+        name: types
+        using:
+          foreign_key_constraint_on:
+            column: point_id
+            table: point_type
+      - comment: null
+        name: point_reviews
+        using:
+          foreign_key_constraint_on:
+            column: point_id
+            table: point_review
+      - comment: null
+        name: point_comments
+        using:
+          foreign_key_constraint_on:
+            column: point_id
+            table: point_comment
+      - comment: null
+        name: point_multimedia
+        using:
+          foreign_key_constraint_on:
+            column: point_id
+            table: point_multimedia
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - name
+          - description
+          - geom
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - name
+          - description
+          - geom
+          filter: {}
+        role: anonymous
+      table: points
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions: []
+      table: toilet_map_layer
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: route
+        using:
+          foreign_key_constraint_on: route_id
+      - comment: null
+        name: line
+        using:
+          foreign_key_constraint_on: line_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - line_id
+          - route_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - line_id
+          - route_id
+          filter: {}
+        role: user
+      table: line_route
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check: {}
+          columns:
+          - comment_id
+          - point_id
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: point
+        using:
+          foreign_key_constraint_on: point_id
+      - comment: null
+        name: comment
+        using:
+          foreign_key_constraint_on: comment_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - comment_id
+          - point_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - comment_id
+          - point_id
+          filter: {}
+        role: user
+      table: point_comment
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: comments
+        using:
+          foreign_key_constraint_on:
+            column: comment_id
+            table: comments
+      - comment: null
+        name: point_comments
+        using:
+          foreign_key_constraint_on:
+            column: comment_id
+            table: point_comment
+      - comment: null
+        name: user_point_comments
+        using:
+          foreign_key_constraint_on:
+            column: comment_id
+            table: user_point_comment
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check:
+            user_id:
+              _eq: X-Hasura-User-Id
+          columns:
+          - body
+          - comment_id
+          - created_at
+          - id
+          - type_id
+          - user_id
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: route_comment
+        using:
+          manual_configuration:
+            column_mapping:
+              id: comment_id
+            remote_table: route_comment
+      - comment: null
+        name: user
+        using:
+          foreign_key_constraint_on: user_id
+      - comment: null
+        name: comment
+        using:
+          foreign_key_constraint_on: comment_id
+      - comment: null
+        name: type
+        using:
+          foreign_key_constraint_on: type_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - comment_id
+          - id
+          - type_id
+          - user_id
+          - body
+          - created_at
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - comment_id
+          - id
+          - type_id
+          - user_id
+          - body
+          - created_at
+          filter: {}
+        role: anonymous
+      table: comments
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check: {}
+          columns:
+          - route_id
+          - comment_id
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: comment
+        using:
+          foreign_key_constraint_on: comment_id
+      - comment: null
+        name: route
+        using:
+          foreign_key_constraint_on: route_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - comment_id
+          - route_id
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - route_id
+          - comment_id
+          filter: {}
+        role: anonymous
+      table: route_comment
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: route_multimedia
+        using:
+          foreign_key_constraint_on:
+            column: multimedia_id
+            table: route_multimedia
+      - comment: null
+        name: point_multimedia
+        using:
+          foreign_key_constraint_on:
+            column: multimedia_id
+            table: point_multimedia
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - name
+          - link
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - name
+          - link
+          filter: {}
+        role: user
+      table: multimedia
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: route_files
+        using:
+          foreign_key_constraint_on:
+            column: file_id
+            table: route_file
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - id
+          - name
+          - link
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - name
+          - link
+          filter: {}
+        role: user
+      table: files
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          check: {}
+          columns:
+          - comment_id
+          - user_point_id
+          set: {}
+        role: user
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: user_point
+        using:
+          foreign_key_constraint_on: user_point_id
+      - comment: null
+        name: comment
+        using:
+          foreign_key_constraint_on: comment_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - user_point_id
+          - comment_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - comment_id
+          - user_point_id
+          filter: {}
+        role: user
+      table: user_point_comment
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: point
+        using:
+          foreign_key_constraint_on: point_id
+      - comment: null
+        name: multimedium
+        using:
+          foreign_key_constraint_on: multimedia_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - multimedia_id
+          - point_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - multimedia_id
+          - point_id
+          filter: {}
+        role: user
+      table: point_multimedia
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: route
+        using:
+          foreign_key_constraint_on: route_id
+      - comment: null
+        name: multimedium
+        using:
+          foreign_key_constraint_on: multimedia_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - route_id
+          - multimedia_id
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - multimedia_id
+          - route_id
+          filter: {}
+        role: user
+      table: route_multimedia
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions: []
+      table: trail_shelter_map_layer
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: type
+        using:
+          foreign_key_constraint_on: type_id
+      - comment: null
+        name: line
+        using:
+          foreign_key_constraint_on: line_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns: []
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - line_id
+          - type_id
+          filter: {}
+        role: user
+      table: line_type
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: route_comments
+        using:
+          foreign_key_constraint_on:
+            column: route_id
+            table: route_comment
+      - comment: null
+        name: route_multimedia
+        using:
+          foreign_key_constraint_on:
+            column: route_id
+            table: route_multimedia
+      - comment: null
+        name: route_files
+        using:
+          foreign_key_constraint_on:
+            column: route_id
+            table: route_file
+      - comment: null
+        name: line_routes
+        using:
+          foreign_key_constraint_on:
+            column: route_id
+            table: line_route
+      - comment: null
+        name: point_routes
+        using:
+          foreign_key_constraint_on:
+            column: route_id
+            table: point_route
+      - comment: null
+        name: routes
+        using:
+          foreign_key_constraint_on:
+            column: route_id
+            table: routes
+      - comment: null
+        name: route_reviews
+        using:
+          foreign_key_constraint_on:
+            column: route_id
+            table: route_review
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: typeByType
+        using:
+          foreign_key_constraint_on: type
+      - comment: null
+        name: route
+        using:
+          foreign_key_constraint_on: route_id
+      - comment: null
+        name: extent
+        using:
+          manual_configuration:
+            column_mapping:
+              id: id
+            remote_table: routes_extent
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - route_id
+          - type
+          - description
+          - short_name
+          - name
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - description
+          - id
+          - route_id
+          - short_name
+          - name
+          - type
+          filter: {}
+        role: anonymous
+      table: routes
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: user
+        using:
+          foreign_key_constraint_on: user_id
+      - comment: null
+        name: role
+        using:
+          foreign_key_constraint_on: role_id
+      select_permissions: []
+      table: user_role
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: route
+        using:
+          foreign_key_constraint_on: route_id
+      - comment: null
+        name: point
+        using:
+          foreign_key_constraint_on: point_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - point_id
+          - route_id
+          filter: {}
+        role: user
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns:
+          - point_id
+          - route_id
+          filter: {}
+        role: anonymous
+      table: point_route
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: user_roles
+        using:
+          foreign_key_constraint_on:
+            column: role_id
+            table: user_role
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions: []
+      table: roles
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships: []
+      select_permissions: []
+      table: trail_marker_map_layer
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      is_enum: false
+      object_relationships:
+      - comment: null
+        name: route
+        using:
+          foreign_key_constraint_on: route_id
+      - comment: null
+        name: file
+        using:
+          foreign_key_constraint_on: file_id
+      select_permissions:
+      - comment: null
+        permission:
+          allow_aggregations: false
+          columns: []
+          filter: {}
+        role: anonymous
+      - comment: null
+        permission:
+          allow_aggregations: true
+          columns:
+          - file_id
+          - route_id
+          filter: {}
+        role: user
+      table: route_file
+      update_permissions: []
+  type: replace_metadata
