@@ -17,6 +17,7 @@ database = "${POSTGIS_DATABASE}"       # postgis database name
 user = "${POSTGIS_USER}"         # postgis database user
 password = "${POSTGIS_PASSWORD}"           # postgis database password
 srid = 4326             # The default srid for this provider. If not provided it will be WebMercator (3857)
+max_connections = 50
 
   [[providers.layers]]
   name = "information"

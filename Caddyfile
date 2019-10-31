@@ -1,6 +1,10 @@
 api.wty.joshgore.com.au {
     proxy / graphql-engine:8080 {
          websocket
+         except /authentication
+    }
+    proxy /authentication authentication:8080 {
+      without /authentication
     }
 }
 http://tiles.wty.joshgore.com.au, https://tiles.wty.joshgore.com.au {
