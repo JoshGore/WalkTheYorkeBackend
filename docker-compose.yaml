@@ -1,20 +1,23 @@
 version: '3.6'
 services:
   postgres:
-    image: kartoza/postgis
+    image: kartoza/postgis:12.1
     restart: always
     volumes:
       # - ./database:/var/lib/postgresql/data
     - postgis-data:/var/lib/postgresql
+    - ./seed-db.sql:/docker-entrypoint-initdb.d/setup-db.sql
     ports:
       - "5432:5432"
     environment: 
       POSTGRES_USER: postgres
       POSTGRES_PASS: "${POSTGRES_PASSWORD}"
       POSTGRES_MULTIPLE_EXTENSIONS: postgis
+      POSTGRES_DBNAME: gis
+      IGNORE_INIT_HOOK_LOCKFILE: true
       ALLOW_IP_RANGE: 0.0.0.0/0
   tegola: 
-    image: gospatial/tegola
+    image: gospatial/tegola:v0.13.0
     depends_on: 
       - "postgres"
     restart: always
@@ -31,19 +34,22 @@ services:
     - ./config.toml:/opt/tegola_config/config.toml
     command: --config /opt/tegola_config/config.toml serve
   graphql-engine:
-    image: hasura/graphql-engine:v1.0.0-beta.6
+    image: hasura/graphql-engine:v2.0.9.cli-migrations-v2
     depends_on:
     - "postgres"
     restart: always
     environment:
-      # database url to connect
+      # database url to connect todo fix to use env. variable
       HASURA_GRAPHQL_DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/gis"
       # enable the console served by server
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set "false" to disable console
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set "false" to disable console
       ## uncomment next line to set an admin secret key
       HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_SECRET}"
       HASURA_GRAPHQL_AUTH_HOOK: http://authentication:8080/webhook
       HASURA_GRAPHQL_CORS_DOMAIN: "*"
+    volumes: 
+    #- ./hasura/migrations:/hasura-migrations
+    - ./hasura:/hasura-migrations
     command:
     - graphql-engine 
     - serve
@@ -59,18 +65,18 @@ services:
       NODE_ENV: production
       DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/gis"
   caddy:
-    image: abiosoft/caddy:0.11.0
+    image: caddy
     depends_on:
     - "graphql-engine"
-    restart: always
+    restart: unless-stopped
     ports:
     - "80:80"
     - "443:443"
     volumes:
-    - ./Caddyfile:/etc/Caddyfile
-    - caddy_certs:/root/.caddy
-    environment: 
-    - ACME_AGREE=true
+    - ./Caddyfile:/etc/caddy/Caddyfile
+    # - caddy_certs:/root/.caddy
+    # environment: 
+    # - ACME_AGREE=true
 volumes:
   caddy_certs:
   postgis-data:

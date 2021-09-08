@@ -1,12 +1,22 @@
-api.wty.joshgore.com.au {
-    proxy / graphql-engine:8080 {
-         websocket
-         except /authentication
-    }
-    proxy /authentication authentication:8080 {
-      without /authentication
-    }
-}
-http://tiles.wty.joshgore.com.au, https://tiles.wty.joshgore.com.au {
-    proxy / tegola:8080
+{$API_HOSTNAME:localhost} {
+  @exc_auth {
+    not path /authentication
+    not path /tiles
+  }
+
+  @graphql {
+    path /v1/*
+    path /console
+  }
+
+  reverse_proxy @graphql graphql-engine:8080
+
+  handle_path /authentication/* {
+    reverse_proxy authentication:8080
+  }
+
+  handle_path /tiles/* {
+    reverse_proxy tegola:8080
+  }
+
 }
