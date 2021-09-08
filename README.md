@@ -52,3 +52,8 @@ CREATE TABLE database;
 \q
 psql -U user -d database -f dump.sql
 ```
+## Deploying to azure app service
+Work in progress to enable deploying this app to a Multi-Container Azure App Service.
+- copying files - use az webapp deploy
+- pre-build auth image or migrate to node image
+- networking: internal + websockets - can we enable polling in queries?

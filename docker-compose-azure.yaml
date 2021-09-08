@@ -1,0 +1,82 @@
+version: '3.6'
+services:
+  postgres:
+    image: kartoza/postgis:12.1
+    restart: always
+    volumes:
+      # - ./database:/var/lib/postgresql/data
+    - ${WEBAPP_STORAGE_HOME}/postgis-data:/var/lib/postgresql
+    - ${WEBAPP_STORAGE_HOME}/seed-db.sql:/docker-entrypoint-initdb.d/setup-db.sql
+    ports:
+      - "5432:5432"
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASS: "${POSTGRES_PASSWORD}"
+      POSTGRES_MULTIPLE_EXTENSIONS: postgis
+      POSTGRES_DBNAME: gis
+      IGNORE_INIT_HOOK_LOCKFILE: true
+      ALLOW_IP_RANGE: 0.0.0.0/0
+  tegola: 
+    image: gospatial/tegola:v0.13.0
+    depends_on: 
+      - "postgres"
+    restart: always
+    environment: 
+      TILES_HOSTNAME: "${TILES_HOSTNAME}"
+      POSTGIS_HOST: postgres
+      POSTGIS_PORT: 5432
+      POSTGIS_DATABASE: gis
+      POSTGIS_USER: postgres
+      POSTGIS_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "8080:8000"
+    volumes:
+    - ${WEBAPP_STORAGE_HOME}/config.toml:/opt/tegola_config/config.toml
+    command: --config /opt/tegola_config/config.toml serve
+  graphql-engine:
+    image: hasura/graphql-engine:v2.0.9.cli-migrations-v2
+    depends_on:
+    - "postgres"
+    restart: always
+    environment:
+      # database url to connect todo fix to use env. variable
+      HASURA_GRAPHQL_DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/gis"
+      # enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set "false" to disable console
+      ## uncomment next line to set an admin secret key
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_SECRET}"
+      HASURA_GRAPHQL_AUTH_HOOK: http://authentication:8080/webhook
+      HASURA_GRAPHQL_CORS_DOMAIN: "*"
+    volumes: 
+    #- ./hasura/migrations:/hasura-migrations
+    - ${WEBAPP_STORAGE_HOME}/hasura:/hasura-migrations
+    command:
+    - graphql-engine 
+    - serve
+  authentication: 
+    build: 
+      context: ./passport-js-authentication-hook
+    volumes:
+    - ${WEBAPP_STORAGE_HOME}/passport-js-authentication-hook/:/usr/source/app
+    - /usr/src/app/node_modules
+    depends_on: 
+    - "postgres"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/gis"
+  caddy:
+    image: caddy
+    depends_on:
+    - "graphql-engine"
+    restart: unless-stopped
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - ${WEBAPP_STORAGE_HOME}/Caddyfile:/etc/caddy/Caddyfile
+    # - caddy_certs:/root/.caddy
+    # environment: 
+    # - ACME_AGREE=true
+volumes:
+  caddy_certs:
+  postgis-data:
